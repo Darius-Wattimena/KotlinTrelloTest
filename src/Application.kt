@@ -1,16 +1,21 @@
 package com.example
 
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.html.*
-import kotlinx.html.*
+import io.ktor.application.Application
+import io.ktor.application.ApplicationCall
+import io.ktor.application.call
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.apache.Apache
+import io.ktor.html.respondHtml
+import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
+import io.ktor.response.respondText
+import io.ktor.routing.get
+import io.ktor.routing.method
+import io.ktor.routing.route
+import io.ktor.routing.routing
 import kotlinx.css.*
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
-import io.ktor.client.request.get
-import io.ktor.http.auth.AuthScheme.OAuth
+import kotlinx.html.*
+import kotlin.collections.set
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -21,6 +26,15 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
+        method(HttpMethod.Get) {
+            route("/") {
+                route("json") {
+                    get {
+                       call.respondText(getTrelloBoards(), contentType = ContentType.Application.Json)
+                    }
+                }
+            }
+        }
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
