@@ -2,9 +2,9 @@ package com.example.request
 
 import com.example.TrelloCall
 import com.example.helper.JsonHelper
-import com.example.trello.Board
-import com.example.trello.Card
-import com.example.trello.List
+import com.example.trello.model.Board
+import com.example.trello.model.Card
+import com.example.trello.model.List
 
 class GetBoard(private val id: String?) : BaseRequest<Board>() {
     private val boardCall = TrelloCall()
