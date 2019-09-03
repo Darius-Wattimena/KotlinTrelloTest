@@ -4,7 +4,7 @@ import com.example.TrelloCall
 import com.example.helper.JsonHelper
 import com.example.trello.model.Action
 
-class GetActions(private val cardId: String?): BaseRequest<Array<Action>>() {
+class GetCardActions(private val cardId: String?): BaseRequest<Array<Action>>() {
 
     private val actionsCall = TrelloCall()
 
