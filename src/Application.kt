@@ -1,14 +1,15 @@
 package com.example
 
-import com.example.model.Board
-import com.example.model.Label
+import com.example.trello.Board
+import com.example.trello.Card
+import com.example.trello.Label
+import com.example.trello.List
 import com.google.gson.Gson
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
-import io.ktor.html.respondHtml
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.response.respondText
@@ -87,12 +88,18 @@ suspend fun gsonTest(): String {
     call.request = "boards/RsU5w4Bn"
     var board = gson.fromJson(call.execute<String>(client), Board::class.java)
 
-    val labelCall = TrelloCall()
-    labelCall.request = "boards/RsU5w4Bn/labels"
-    val labels = gson.fromJson(labelCall.execute<String>(client), Array<Label>::class.java)
+    val boardListsCall = TrelloCall()
+    boardListsCall.request = "boards/RsU5w4Bn/lists"
+    var boardLists = gson.fromJson(boardListsCall.execute<String>(client), Array<List>::class.java)
 
-    board.id = "TestID"
-    board.labels = labels
+    for (list in boardLists) {
+        val listCardsCall = TrelloCall()
+        listCardsCall.request = "lists/${list.id}/cards"
+        var listCards = gson.fromJson(listCardsCall.execute<String>(client), Array<Card>::class.java)
+        list.cards = listCards
+    }
+
+    board.lists = boardLists
 
     client.close()
     return gson.toJson(board)

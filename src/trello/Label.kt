@@ -1,4 +1,4 @@
-package com.example.model
+package com.example.trello
 
 data class Label(
     val id: String,

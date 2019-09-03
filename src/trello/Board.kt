@@ -1,9 +1,9 @@
-package com.example.model
+package com.example.trello
 
 data class Board (
-    var id: String,
+    val id: String,
     var name: String,
     var desc: String,
     var url: String,
-    var labels: Array<Label>
+    var lists: Array<List>
 )
