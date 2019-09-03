@@ -39,5 +39,8 @@ dependencies {
     compile "io.ktor:ktor-client-core:$ktor_version"
     compile "io.ktor:ktor-client-core-jvm:$ktor_version"
     compile "io.ktor:ktor-client-apache:$ktor_version"
+    compile "io.ktor:ktor-client-gson:$ktor_version"
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
+    implementation "io.ktor:ktor-client-json:$ktor_version"
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

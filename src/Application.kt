@@ -1,5 +1,8 @@
 package com.example
 
+import com.example.model.Board
+import com.example.model.Label
+import com.google.gson.Gson
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
@@ -32,49 +35,16 @@ fun Application.module(testing: Boolean = false) {
                     get {
                        call.respondText(getTrelloBoards(), contentType = ContentType.Application.Json)
                     }
-                }
-            }
-        }
-        get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
-        }
-
-        get("/html-dsl") {
-            call.respondHtml {
-                body {
-                    h1 { +"HTML" }
-                    ul {
-                        for (n in 1..10) {
-                            li { +"$n" }
+                    route("/gson") {
+                        get {
+                            call.respondText(gsonTest(), contentType = ContentType.Application.Json)
                         }
                     }
                 }
             }
         }
-
-        get("/trello") {
-            val trelloResponse = getTrelloBoards()
-
-            call.respondHtml {
-                body {
-                    h1 { +"TrelloTest"}
-                    p { +trelloResponse }
-                }
-            }
-        }
-
-        get("/styles.css") {
-            call.respondCss {
-                body {
-                    backgroundColor = Color.red
-                }
-                p {
-                    fontSize = 2.em
-                }
-                rule("p.myclass") {
-                    color = Color.blue
-                }
-            }
+        get("/") {
+            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
     }
 }
@@ -108,4 +78,22 @@ suspend fun getTrelloBoards(): String {
 
     client.close()
     return apiTest3
+}
+
+suspend fun gsonTest(): String {
+    val gson = Gson()
+    val client = JsonHttpClient().client
+    val call = TrelloCall()
+    call.request = "boards/RsU5w4Bn"
+    var board = gson.fromJson(call.execute<String>(client), Board::class.java)
+
+    val labelCall = TrelloCall()
+    labelCall.request = "boards/RsU5w4Bn/labels"
+    val labels = gson.fromJson(labelCall.execute<String>(client), Array<Label>::class.java)
+
+    board.id = "TestID"
+    board.labels = labels
+
+    client.close()
+    return gson.toJson(board)
 }
