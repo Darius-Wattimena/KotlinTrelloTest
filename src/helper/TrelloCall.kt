@@ -41,7 +41,7 @@ class TrelloCall() {
     /**
      * Execute the HTTP request with the [buildURL]
      */
-    suspend inline fun <reified T> execute(client : HttpClient): T {
+    suspend inline fun execute(client : HttpClient): String {
         return client.get(getURL())
     }
 }
