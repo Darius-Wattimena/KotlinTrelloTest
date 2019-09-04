@@ -1,6 +1,6 @@
 package com.example
 
-interface Request<T> {
+interface TrelloRequest<T> {
     fun prepare()
     suspend fun execute(): T
 }

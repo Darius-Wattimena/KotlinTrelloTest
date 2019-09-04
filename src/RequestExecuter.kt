@@ -1,6 +1,6 @@
 package com.example
 
-import com.example.request.BaseRequest
+import com.example.request.BaseTrelloRequest
 import com.example.trello.Response
 import com.google.gson.Gson
 
@@ -8,7 +8,7 @@ class RequestExecuter {
     companion object {
         private val gson = Gson()
 
-        suspend fun <T> execute(request: BaseRequest<T>): String {
+        suspend fun <T> execute(request: BaseTrelloRequest<T>): String {
             return try {
                 val result = executeRequest(request)
                 processResult(result)
@@ -20,7 +20,7 @@ class RequestExecuter {
         }
 
 
-        suspend fun <T> executeRequest(request: BaseRequest<T>): T {
+        suspend fun <T> executeRequest(request: BaseTrelloRequest<T>): T {
             request.prepare()
             return request.execute()
         }

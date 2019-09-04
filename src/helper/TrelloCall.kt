@@ -3,7 +3,7 @@ package com.example
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 
-class TrelloCall() {
+class TrelloCall(val apiKey: String, val oauthToken: String) {
     val parameters = mutableMapOf<String, String>()
     var request = ""
 
@@ -23,7 +23,7 @@ class TrelloCall() {
      * This URL contains all the [parameters], the [request] and some default values like the BaseURL, APIKey and OAuthToken
      */
     private fun build() {
-        buildURL = "${Constants.TRELLO_BASEURL}$request?${formatParameters()}&key=${Constants.API_KEY}&token=${Constants.OAUTH_TOKEN}"
+        buildURL = "${Constants.TRELLO_BASEURL}$request?${formatParameters()}&key=$apiKey&token=$oauthToken"
     }
 
     /**

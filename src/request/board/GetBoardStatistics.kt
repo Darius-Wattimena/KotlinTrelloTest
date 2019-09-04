@@ -1,20 +1,22 @@
-package com.example.request
+package com.example.request.board
 
 import com.example.TrelloCall
 import com.example.helper.JsonHelper
+import com.example.helper.Request
+import com.example.request.BaseTrelloRequest
 import com.example.trello.model.Board
 import com.example.trello.model.ListStatistics
 import com.example.trello.model.Statistics
 
-class GetBoardStatistics(private val id: String?): BaseRequest<Statistics>() {
-    val boardCall = TrelloCall()
-    val listsCall = TrelloCall()
+class GetBoardStatistics(private val request: Request): BaseTrelloRequest<Statistics>() {
+    val boardCall = TrelloCall(request.GetKey(), request.GetToken())
+    val listsCall = TrelloCall(request.GetKey(), request.GetToken())
 
     override fun prepare() {
-        boardCall.request = "board/$id"
+        boardCall.request = "board/${request.id}"
         boardCall.parameters["fields"] = "name"
 
-        listsCall.request = "board/$id/lists"
+        listsCall.request = "board/${request.id}/lists"
         listsCall.parameters["fields"] = "name"
         listsCall.parameters["cards"] = "all"
         listsCall.parameters["card_fields"] = "labels, name"

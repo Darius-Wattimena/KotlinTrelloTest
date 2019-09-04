@@ -49,5 +49,6 @@ shadowJar {
     manifest {
         attributes 'Main-Class': mainClassName
         baseName("Trello-Server")
+        version("0.0.2")
     }
 }

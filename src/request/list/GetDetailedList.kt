@@ -1,17 +1,19 @@
-package com.example.request
+package com.example.request.list
 
 import com.example.TrelloCall
 import com.example.helper.JsonHelper
+import com.example.helper.Request
+import com.example.request.BaseTrelloRequest
 import com.example.trello.model.Card
 import com.example.trello.model.List
 
-class GetDetailedList(private val id: String?): BaseRequest<List>() {
-    val call = TrelloCall()
-    val cardsCall = TrelloCall()
+class GetDetailedList(private val request: Request): BaseTrelloRequest<List>() {
+    val call = TrelloCall(request.GetKey(), request.GetToken())
+    val cardsCall = TrelloCall(request.GetKey(), request.GetToken())
 
     override fun prepare() {
-        call.request = "lists/$id"
-        cardsCall.request = "lists/$id/cards"
+        call.request = "lists/${request.id}"
+        cardsCall.request = "lists/${request.id}/cards"
     }
 
     override suspend fun execute(): List {
