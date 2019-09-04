@@ -1,7 +1,7 @@
 package com.example
 
 import com.example.helper.Request
-import com.example.request.*
+import com.example.request.GetCardActions
 import com.example.request.action.GetAction
 import com.example.request.board.GetBoard
 import com.example.request.board.GetBoardStatistics
@@ -42,28 +42,43 @@ fun Application.module(testing: Boolean = false) {
 
                     get("/board/{id}") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
-                        call.respondText(RequestExecuter.execute(GetBoard(request)), contentType = ContentType.Application.Json)
+                        call.respondText(
+                            RequestExecuter.execute(GetBoard(request)),
+                            contentType = ContentType.Application.Json
+                        )
                     }
 
                     get("/board/{id}/detailed") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
-                        call.respondText(RequestExecuter.execute(GetDetailedBoard(request)), contentType = ContentType.Application.Json)
+                        call.respondText(
+                            RequestExecuter.execute(GetDetailedBoard(request)),
+                            contentType = ContentType.Application.Json
+                        )
                     }
 
                     get("/board/{id}/statistics") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
-                        call.respondText(RequestExecuter.execute(GetBoardStatistics(request)), contentType = ContentType.Application.Json)
+                        call.respondText(
+                            RequestExecuter.execute(GetBoardStatistics(request)),
+                            contentType = ContentType.Application.Json
+                        )
                     }
 
                     get("/processedBoard/{id}") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
-                        call.respondText(getBoardsAndProcessActionsOfAllCards(request), contentType = ContentType.Application.Json)
+                        call.respondText(
+                            getBoardsAndProcessActionsOfAllCards(request),
+                            contentType = ContentType.Application.Json
+                        )
                     }
 
                     route("/testBoard") {
                         get {
                             val request = Request(call.request.headers, "RsU5w4Bn")
-                            call.respondText(getBoardsAndProcessActionsOfAllCards(request), contentType = ContentType.Application.Json)
+                            call.respondText(
+                                getBoardsAndProcessActionsOfAllCards(request),
+                                contentType = ContentType.Application.Json
+                            )
                         }
                     }
 
@@ -73,12 +88,18 @@ fun Application.module(testing: Boolean = false) {
 
                     get("/list/{id}") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
-                        call.respondText(RequestExecuter.execute(GetList(request)), contentType = ContentType.Application.Json)
+                        call.respondText(
+                            RequestExecuter.execute(GetList(request)),
+                            contentType = ContentType.Application.Json
+                        )
                     }
 
                     get("/list/{id}/detailed") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
-                        call.respondText(RequestExecuter.execute(GetDetailedList(request)), contentType = ContentType.Application.Json)
+                        call.respondText(
+                            RequestExecuter.execute(GetDetailedList(request)),
+                            contentType = ContentType.Application.Json
+                        )
                     }
 
                     /**
@@ -87,7 +108,10 @@ fun Application.module(testing: Boolean = false) {
 
                     get("/card/{id}") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
-                        call.respondText(RequestExecuter.execute(GetCard(request)), contentType = ContentType.Application.Json)
+                        call.respondText(
+                            RequestExecuter.execute(GetCard(request)),
+                            contentType = ContentType.Application.Json
+                        )
                     }
 
                     /**
@@ -96,12 +120,18 @@ fun Application.module(testing: Boolean = false) {
 
                     get("/action/{id}") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
-                        call.respondText(RequestExecuter.execute(GetAction(request)), contentType = ContentType.Application.Json)
+                        call.respondText(
+                            RequestExecuter.execute(GetAction(request)),
+                            contentType = ContentType.Application.Json
+                        )
                     }
 
                     get("/card/{id}/actions") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
-                        call.respondText(RequestExecuter.execute(GetCardActions(request)), contentType = ContentType.Application.Json)
+                        call.respondText(
+                            RequestExecuter.execute(GetCardActions(request)),
+                            contentType = ContentType.Application.Json
+                        )
                     }
 
                 }

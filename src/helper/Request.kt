@@ -2,11 +2,12 @@ package com.example.helper
 
 import io.ktor.http.Headers
 
-data class Request (
+data class Request(
     val headers: Headers,
     var id: String = "",
     private var key: String = "",
-    private var token: String = "") {
+    private var token: String = ""
+) {
 
     fun GetKey(): String {
         if (key.isEmpty()) {

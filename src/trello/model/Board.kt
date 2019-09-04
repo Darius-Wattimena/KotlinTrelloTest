@@ -1,6 +1,6 @@
 package com.example.trello.model
 
-data class Board (
+data class Board(
     val id: String,
     var name: String,
     var desc: String,

@@ -15,7 +15,7 @@ class TrelloCall(val apiKey: String, val oauthToken: String) {
      * Then we separate them with the "&"
      */
     private fun formatParameters(): String {
-        return parameters.map { (k, v) -> "$k=$v"}.joinToString("&")
+        return parameters.map { (k, v) -> "$k=$v" }.joinToString("&")
     }
 
     /**
@@ -42,7 +42,7 @@ class TrelloCall(val apiKey: String, val oauthToken: String) {
     /**
      * Execute the HTTP request with the [buildURL]
      */
-    suspend inline fun execute(client : HttpClient): String {
+    suspend inline fun execute(client: HttpClient): String {
         return client.get(getURL())
     }
 }
