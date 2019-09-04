@@ -8,8 +8,8 @@ import com.example.trello.model.Card
 import com.example.trello.model.List
 
 class GetDetailedList(private val request: Request) : BaseTrelloRequest<List>() {
-    val call = TrelloCall(request.GetKey(), request.GetToken())
-    val cardsCall = TrelloCall(request.GetKey(), request.GetToken())
+    private val call = TrelloCall(request.GetKey(), request.GetToken())
+    private val cardsCall = TrelloCall(request.GetKey(), request.GetToken())
 
     override fun prepare() {
         call.request = "lists/${request.id}"

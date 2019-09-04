@@ -42,7 +42,7 @@ dependencies {
     compile "io.ktor:ktor-client-gson:$ktor_version"
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
     implementation "io.ktor:ktor-client-json:$ktor_version"
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "com.google.code.gson:gson:$gson_version"
 }
 
 shadowJar {

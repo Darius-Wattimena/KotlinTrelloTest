@@ -9,8 +9,8 @@ import com.example.trello.model.ListStatistics
 import com.example.trello.model.Statistics
 
 class GetBoardStatistics(private val request: Request) : BaseTrelloRequest<Statistics>() {
-    val boardCall = TrelloCall(request.GetKey(), request.GetToken())
-    val listsCall = TrelloCall(request.GetKey(), request.GetToken())
+    private val boardCall = TrelloCall(request.GetKey(), request.GetToken())
+    private val listsCall = TrelloCall(request.GetKey(), request.GetToken())
 
     override fun prepare() {
         boardCall.request = "board/${request.id}"
@@ -28,18 +28,19 @@ class GetBoardStatistics(private val request: Request) : BaseTrelloRequest<Stati
         val lists = JsonHelper.fromJson(gson, listsCall, client, Array<ListStatistics>::class.java)
 
         for (list in lists) {
-            var totalFrontend = 0
-            var totalBackend = 0
-            for (card in list.cards) {
+            list.labelAmounts = HashMap()
+            for (card in list.cards!!) {
                 for (label in card.labels) {
-                    if (label.name == "FRONTEND")
-                        totalFrontend++
-                    else if (label.name == "BACKEND")
-                        totalBackend++
+                    if (!list.labelAmounts.containsKey(label.name)) {
+                        list.labelAmounts[label.name] = 1
+                    } else {
+                        val newValue = list.labelAmounts[label.name]!! + 1
+                        list.labelAmounts[label.name] = newValue
+                    }
                 }
             }
-            list.frontendAmount = totalFrontend
-            list.backendAmount = totalBackend
+
+            list.cards = null
         }
 
         return Statistics(board.id, board.name, lists)

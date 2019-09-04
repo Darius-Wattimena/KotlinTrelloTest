@@ -3,8 +3,10 @@ package com.example.helper
 import com.example.Constants
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
+import org.slf4j.LoggerFactory
 
 class TrelloCall(val apiKey: String, val oauthToken: String) {
+    val logger = LoggerFactory.getLogger(this::class.java)
     val parameters = mutableMapOf<String, String>()
     var request = ""
 
@@ -15,6 +17,7 @@ class TrelloCall(val apiKey: String, val oauthToken: String) {
      * Then we separate them with the "&"
      */
     private fun formatParameters(): String {
+        logger.debug("Formatting parameters map for a HTTP request")
         return parameters.map { (k, v) -> "$k=$v" }.joinToString("&")
     }
 
@@ -24,6 +27,7 @@ class TrelloCall(val apiKey: String, val oauthToken: String) {
      * This URL contains all the [parameters], the [request] and some default values like the BaseURL, APIKey and OAuthToken
      */
     private fun build() {
+        logger.debug("Building Trello HTTP request")
         buildURL = "${Constants.TRELLO_BASEURL}$request?${formatParameters()}&key=$apiKey&token=$oauthToken"
     }
 
@@ -43,6 +47,10 @@ class TrelloCall(val apiKey: String, val oauthToken: String) {
      * Execute the HTTP request with the [buildURL]
      */
     suspend inline fun execute(client: HttpClient): String {
-        return client.get(getURL())
+        val url = getURL()
+        logger.debug("Executing Trello HTTP request")
+        val result = client.get<String>(url)
+        logger.debug("Received HTTP request result")
+        return result
     }
 }
