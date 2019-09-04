@@ -1,6 +1,6 @@
 package com.example.request
 
-import com.example.TrelloCall
+import com.example.helper.TrelloCall
 import com.example.helper.JsonHelper
 import com.example.helper.Request
 import com.example.trello.model.Action

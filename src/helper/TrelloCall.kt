@@ -1,5 +1,6 @@
-package com.example
+package com.example.helper
 
+import com.example.Constants
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 

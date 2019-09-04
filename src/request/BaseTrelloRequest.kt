@@ -5,6 +5,6 @@ import com.example.helper.JsonHelper
 import com.google.gson.Gson
 
 abstract class BaseTrelloRequest<T> : TrelloRequest<T> {
-    val client = JsonHelper.Client()
+    val client = JsonHelper.client()
     val gson = Gson()
 }
