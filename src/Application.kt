@@ -1,6 +1,7 @@
 package com.example
 
 import com.example.helper.Request
+import com.example.request.board.GetLastBoardAction
 import com.example.request.GetCardActions
 import com.example.request.action.GetAction
 import com.example.request.board.GetBoard
@@ -60,6 +61,14 @@ fun Application.module(testing: Boolean = false) {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
                         call.respondText(
                             RequestExecuter.execute(GetBoardStatistics(request)),
+                            contentType = ContentType.Application.Json
+                        )
+                    }
+
+                    get("/board/{id}/getLastAction") {
+                        val request = Request(call.request.headers, call.parameters["id"]!!)
+                        call.respondText(
+                            RequestExecuter.execute(GetLastBoardAction(request)),
                             contentType = ContentType.Application.Json
                         )
                     }
