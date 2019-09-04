@@ -3,6 +3,7 @@ package com.example
 import com.example.helper.Request
 import com.example.request.board.GetLastBoardAction
 import com.example.request.GetCardActions
+import com.example.request.GetTodayBurndownChartInfo
 import com.example.request.action.GetAction
 import com.example.request.board.GetBoard
 import com.example.request.board.GetBoardStatistics
@@ -36,6 +37,15 @@ fun Application.module(testing: Boolean = false) {
         method(HttpMethod.Get) {
             route("/") {
                 route("json") {
+
+                    get("/board/{id}/burndownchartinfo/") {
+                        val request = Request(call.request.headers, call.parameters["id"]!!)
+                        val doneListId = call.request.headers["doneListId"]
+                        call.respondText(
+                            RequestExecuter.execute(GetTodayBurndownChartInfo(request, doneListId.toString())),
+                            contentType = ContentType.Application.Json
+                        )
+                    }
 
                     /**
                      * Board
