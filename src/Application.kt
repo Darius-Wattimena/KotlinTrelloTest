@@ -1,13 +1,13 @@
 package com.example
 
 import com.example.helper.Request
-import com.example.request.board.GetLastBoardAction
 import com.example.request.GetCardActions
 import com.example.request.GetTodayBurndownChartInfo
 import com.example.request.action.GetAction
 import com.example.request.board.GetBoard
 import com.example.request.board.GetBoardStatistics
 import com.example.request.board.GetDetailedBoard
+import com.example.request.board.GetLastBoardAction
 import com.example.request.card.GetCard
 import com.example.request.list.GetDetailedList
 import com.example.request.list.GetList
@@ -41,8 +41,16 @@ fun Application.module(testing: Boolean = false) {
                     get("/board/{id}/burndownchartinfo/") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
                         val doneListId = call.request.headers["doneListId"]
+                        val startDate = call.request.headers["startDate"]
+                        val endDate = call.request.headers["endDate"]
+                        val today = call.request.headers["today"]
                         call.respondText(
-                            RequestExecuter.execute(GetTodayBurndownChartInfo(request, doneListId.toString())),
+                            RequestExecuter.execute(GetTodayBurndownChartInfo(request,
+                                doneListId.toString(),
+                                startDate.toString(),
+                                endDate.toString(),
+                                today.toString()
+                            )),
                             contentType = ContentType.Application.Json
                         )
                     }

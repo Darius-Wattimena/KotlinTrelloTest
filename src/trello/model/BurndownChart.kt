@@ -1,9 +1,9 @@
 package com.example.trello.model
 
-import java.time.LocalDate
+import trello.model.BurndownChartItem
 
 data class BurndownChart(
-    val items: MutableMap<LocalDate, BurndownChartItem>,
-    val startDate: LocalDate,
-    val endDate: LocalDate
+    val items: MutableMap<Long, BurndownChartItem>,
+    val startDate: Long,
+    val endDate: Long
 )
