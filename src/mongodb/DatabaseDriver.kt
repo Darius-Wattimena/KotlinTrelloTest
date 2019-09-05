@@ -3,8 +3,7 @@ package com.example.mongodb
 import org.litote.kmongo.*
 import trello.model.BurndownChartItem
 
-class DatabaseDriver() {
-
+class DatabaseDriver {
     val client = KMongo.createClient()
     private val database = client.getDatabase("test")
     private val collection = database.getCollection<BurndownChartItem>()

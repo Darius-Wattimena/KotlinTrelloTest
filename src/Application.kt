@@ -48,11 +48,11 @@ fun Application.module(testing: Boolean = false) {
                         call.respondText(
                             RequestExecuter.execute(
                                 GetBurndownChartInfo(request,
-                                doneListId.toString(),
-                                startDate.toString(),
-                                endDate.toString(),
-                                today.toString()
-                            )
+                                    doneListId.toString(),
+                                    startDate.toString(),
+                                    endDate.toString(),
+                                    today.toString()
+                                )
                             ),
                             contentType = ContentType.Application.Json
                         )
