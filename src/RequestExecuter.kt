@@ -3,12 +3,13 @@ package com.example
 import com.example.request.BaseTrelloRequest
 import com.example.trello.Response
 import com.google.gson.Gson
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class RequestExecuter {
     companion object {
         private val gson = Gson()
-        val logger = LoggerFactory.getLogger(this::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
         suspend fun <T> execute(request: BaseTrelloRequest<T>): String {
             return try {
@@ -23,14 +24,14 @@ class RequestExecuter {
         }
 
 
-        suspend fun <T> executeRequest(request: BaseTrelloRequest<T>): T {
+        private suspend fun <T> executeRequest(request: BaseTrelloRequest<T>): T {
             logger.debug("Preparing Request")
             request.prepare()
             logger.debug("Executing Request")
             return request.execute()
         }
 
-        fun <T> processResult(result: T): String {
+        private fun <T> processResult(result: T): String {
             logger.debug("Processing Request Result")
             val response = Response()
             response.value = result

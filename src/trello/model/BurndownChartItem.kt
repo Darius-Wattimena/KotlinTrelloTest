@@ -1,6 +1,7 @@
 package trello.model
 
 data class BurndownChartItem(
+    val date: Long,
     val totalDonePoint: Int,
     val totalDoneItems: Int,
     val totalDoneHoursSpend: Float,
