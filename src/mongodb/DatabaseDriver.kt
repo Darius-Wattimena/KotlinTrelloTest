@@ -8,24 +8,24 @@ class DatabaseDriver {
     private val database = client.getDatabase("test")
     private val collection = database.getCollection<BurndownChartItem>()
 
-    fun save(item: BurndownChartItem) {
+    fun saveBurndownChartItem(item: BurndownChartItem) {
         val dbItem = collection.findOne(BurndownChartItem::date eq item.date)
         if (dbItem == null) {
-            insert(item)
+            insertBurndownChartItem(item)
         } else {
-            update(item, dbItem)
+            updateBurndownChartItem(item, dbItem)
         }
     }
 
-    fun insert(item: BurndownChartItem) {
+    fun insertBurndownChartItem(item: BurndownChartItem) {
         collection.insertOne(item)
     }
 
-    fun update(item: BurndownChartItem, dbItem: BurndownChartItem) {
+    fun updateBurndownChartItem(item: BurndownChartItem, dbItem: BurndownChartItem) {
         collection.updateOne(BurndownChartItem::date eq dbItem.date, item)
     }
 
-    fun find(epochDate: Long) : BurndownChartItem? {
+    fun findBurndownChartItem(epochDate: Long) : BurndownChartItem? {
         return collection.findOne(BurndownChartItem::date eq epochDate)
     }
 }

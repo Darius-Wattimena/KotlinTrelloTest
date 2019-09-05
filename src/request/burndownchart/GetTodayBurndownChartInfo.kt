@@ -29,7 +29,7 @@ class GetTodayBurndownChartInfo(
         val processor = DayProcessor(request, doneListId)
         bcDetails = processor.process(request, gson, boardCall, client)
         val todayItem = processor.convertToBurndownChartItem(bcDetails, todayDate)
-        driver.save(todayItem)
+        driver.saveBurndownChartItem(todayItem)
         return todayItem
     }
 }

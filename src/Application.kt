@@ -12,6 +12,8 @@ import com.example.request.burndownchart.GetTodayBurndownChartInfo
 import com.example.request.card.GetCard
 import com.example.request.list.GetDetailedList
 import com.example.request.list.GetList
+import com.example.request.member.GetBoardMembers
+import com.example.request.member.GetMember
 import com.example.trello.Response
 import com.google.gson.Gson
 import io.ktor.application.Application
@@ -38,40 +40,6 @@ fun Application.module(testing: Boolean = false) {
         method(HttpMethod.Get) {
             route("/") {
                 route("json") {
-
-                    get("/board/{id}/burndownchartinfo") {
-                        val request = Request(call.request.headers, call.parameters["id"]!!)
-                        val doneListId = call.request.headers["doneListId"]
-                        val startDate = call.request.headers["startDate"]
-                        val endDate = call.request.headers["endDate"]
-                        val today = call.request.headers["today"]
-                        call.respondText(
-                            RequestExecuter.execute(
-                                GetBurndownChartInfo(request,
-                                    doneListId.toString(),
-                                    startDate.toString(),
-                                    endDate.toString(),
-                                    today.toString()
-                                )
-                            ),
-                            contentType = ContentType.Application.Json
-                        )
-                    }
-
-                    get("/board/{id}/todayburndownchartinfo") {
-                        val request = Request(call.request.headers, call.parameters["id"]!!)
-                        val doneListId = call.request.headers["doneListId"]
-                        val today = call.request.headers["today"]
-                        call.respondText(
-                            RequestExecuter.execute(
-                                GetTodayBurndownChartInfo(request,
-                                    doneListId.toString(),
-                                    today.toString()
-                                )
-                            ),
-                            contentType = ContentType.Application.Json
-                        )
-                    }
 
                     /**
                      * Board
@@ -127,6 +95,40 @@ fun Application.module(testing: Boolean = false) {
                         }
                     }
 
+                    get("/board/{id}/burndownchartinfo") {
+                        val request = Request(call.request.headers, call.parameters["id"]!!)
+                        val doneListId = call.request.headers["doneListId"]
+                        val startDate = call.request.headers["startDate"]
+                        val endDate = call.request.headers["endDate"]
+                        val today = call.request.headers["today"]
+                        call.respondText(
+                            RequestExecuter.execute(
+                                GetBurndownChartInfo(request,
+                                    doneListId.toString(),
+                                    startDate.toString(),
+                                    endDate.toString(),
+                                    today.toString()
+                                )
+                            ),
+                            contentType = ContentType.Application.Json
+                        )
+                    }
+
+                    get("/board/{id}/todayburndownchartinfo") {
+                        val request = Request(call.request.headers, call.parameters["id"]!!)
+                        val doneListId = call.request.headers["doneListId"]
+                        val today = call.request.headers["today"]
+                        call.respondText(
+                            RequestExecuter.execute(
+                                GetTodayBurndownChartInfo(request,
+                                    doneListId.toString(),
+                                    today.toString()
+                                )
+                            ),
+                            contentType = ContentType.Application.Json
+                        )
+                    }
+
                     /**
                      * List
                      */
@@ -159,6 +161,14 @@ fun Application.module(testing: Boolean = false) {
                         )
                     }
 
+                    get("/card/{id}/actions") {
+                        val request = Request(call.request.headers, call.parameters["id"]!!)
+                        call.respondText(
+                            RequestExecuter.execute(GetCardActions(request)),
+                            contentType = ContentType.Application.Json
+                        )
+                    }
+
                     /**
                      * Action
                      */
@@ -171,10 +181,22 @@ fun Application.module(testing: Boolean = false) {
                         )
                     }
 
-                    get("/card/{id}/actions") {
+                    /**
+                     * Member
+                     */
+
+                    get("member/{id}") {
                         val request = Request(call.request.headers, call.parameters["id"]!!)
                         call.respondText(
-                            RequestExecuter.execute(GetCardActions(request)),
+                            RequestExecuter.execute(GetMember(request)),
+                            contentType = ContentType.Application.Json
+                        )
+                    }
+
+                    get("board/{id}/members") {
+                        val request = Request(call.request.headers, call.parameters["id"]!!)
+                        call.respondText(
+                            RequestExecuter.execute(GetBoardMembers(request)),
                             contentType = ContentType.Application.Json
                         )
                     }

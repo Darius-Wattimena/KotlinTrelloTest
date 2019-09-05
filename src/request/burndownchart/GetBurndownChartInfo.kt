@@ -42,14 +42,14 @@ class GetBurndownChartInfo(
             bcDetails = processor.process(request, gson, boardCall, client)
             val item = processor.convertToBurndownChartItem(bcDetails, todayDate)
             burndownChart.items[todayDate] = item
-            driver.save(item)
+            driver.saveBurndownChartItem(item)
         }
 
         var checkingDatabaseDay = startOfSprint.plusDays((databaseDays - 1).toLong())
 
         while (databaseDays > 0) {
             val databaseDayEpoch = Date.valueOf(checkingDatabaseDay).time
-            val bcDatabaseItem = driver.find(databaseDayEpoch)
+            val bcDatabaseItem = driver.findBurndownChartItem(databaseDayEpoch)
             if (bcDatabaseItem != null) {
                 burndownChart.items[databaseDayEpoch] = bcDatabaseItem
             }
