@@ -1,31 +1,40 @@
 package com.example.mongodb
 
+import com.example.trello.model.Board
+import com.example.trello.model.DoneList
 import org.litote.kmongo.*
 import trello.model.BurndownChartItem
 
 class DatabaseDriver {
     val client = KMongo.createClient()
     private val database = client.getDatabase("test")
-    private val collection = database.getCollection<BurndownChartItem>()
+    private val burndownChartItemCollection = database.getCollection<BurndownChartItem>()
+    private val doneListCollection = database.getCollection<DoneList>()
 
     fun saveBurndownChartItem(item: BurndownChartItem) {
-        val dbItem = collection.findOne(BurndownChartItem::date eq item.date)
+        val dbItem = burndownChartItemCollection.findOne(BurndownChartItem::date eq item.date)
         if (dbItem == null) {
-            insertBurndownChartItem(item)
+            burndownChartItemCollection.insertOne(item)
         } else {
-            updateBurndownChartItem(item, dbItem)
+            burndownChartItemCollection.updateOne(BurndownChartItem::date eq dbItem.date, item)
         }
     }
 
-    fun insertBurndownChartItem(item: BurndownChartItem) {
-        collection.insertOne(item)
-    }
-
-    fun updateBurndownChartItem(item: BurndownChartItem, dbItem: BurndownChartItem) {
-        collection.updateOne(BurndownChartItem::date eq dbItem.date, item)
-    }
-
     fun findBurndownChartItem(epochDate: Long) : BurndownChartItem? {
-        return collection.findOne(BurndownChartItem::date eq epochDate)
+        return burndownChartItemCollection.findOne(BurndownChartItem::date eq epochDate)
+    }
+
+    fun saveDoneList(board: Board, listId: String) {
+        val dbItem = doneListCollection.findOne(Board::id eq board.id)
+        val item = DoneList(board.id, listId)
+        if (dbItem == null) {
+            doneListCollection.insertOne(item)
+        } else {
+            doneListCollection.updateOne(Board::id eq dbItem.boardId, item)
+        }
+    }
+
+    fun findDoneList(boardId: String): DoneList? {
+        return doneListCollection.findOne(DoneList::boardId eq boardId)
     }
 }
